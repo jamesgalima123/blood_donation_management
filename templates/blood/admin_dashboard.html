@@ -1,0 +1,62 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+<br><br>
+<div class="container">
+
+    <div class="row">
+
+      <div class="col-sm-3">
+        <div class="card bg-light">
+          <div class="card-body">
+              <div class="blood">
+              </div><br>
+              <div>
+                  Total Donors <br>
+                  {{totaldonors}}
+              </div>                            
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+          <div class="card bg-light">
+              <div class="card-body">
+                  <div class="blood">
+                  </div><br>
+                  <div>
+                      Total Requests <br>
+                     {{totalrequest}}
+                  </div>                            
+              </div>
+            </div>
+      </div>
+      <div class="col-sm-3">
+          <div class="card bg-light">
+              <div class="card-body">
+                  <div class="blood">
+                  </div><br>
+                  <div>
+                      Approved Requests <br>
+                      {{totalapprovedrequest}}
+                  </div>                            
+              </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="card bg-light">
+              <div class="card-body">
+                  <div class="blood">
+                  </div><br>
+                  <div>
+                      Total Blood Unit (in ml) <br>
+                      {{totalbloodunit}}
+                  </div>                            
+              </div>
+            </div>
+        </div>
+        <br><br>
+        <div id="piechart" style="width: 690px; height: 320px; margin-left:auto; margin-right:auto;"></div>  
+    </div>
+</div>
+
+
+{% endblock content %}
