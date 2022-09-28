@@ -56,6 +56,12 @@ def home_view(request):
 
 def admin_announcement(request):
     announcement_form = forms.AnnouncementForm()
+    if request.method=='POST':
+        request_form=forms.AnnouncementForm(request.POST)
+        if request_form.is_valid():
+            announcement_request=request_form.save(commit=False)
+            announcement_request.save()
+            return HttpResponseRedirect('admin-announcement')
     return render(request,'blood/admin_announcement.html',{"announcement_form":announcement_form})
 def is_donor(user):
     return user.groups.filter(name='DONOR').exists()

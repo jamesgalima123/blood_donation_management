@@ -9,7 +9,7 @@ class BloodForm(forms.ModelForm):
 
 class AnnouncementForm(forms.ModelForm):
     class Meta:
-        models=models.Announcement
+        model=models.Announcement
         fields=['title','body']
 class RequestForm(forms.ModelForm):
     class Meta:

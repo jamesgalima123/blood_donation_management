@@ -2,28 +2,35 @@
 {% block content %}
 {% load widget_tweaks %}
 {%load static%}
+<style>
+    form{
+        margin:auto;
+        background-color:red;
+        width:50%;
+        height:500px;
+    }
+    .page-wrapper{
+        background-color:blue !important;
+    }
+</style>
 <br><br>
 <div class="page-wrapper">
-        <div class="wrapper wrapper--w790">
-            <br><br><br>
-            <div class="card card-5">
-                <div class="card-heading">
-                    <h2 class="title">Donor Login</h2>
-                </div>
-                <div class="card-body">
+
                     <form method="POST">
+                        {% csrf_token %}
                         <div class="form-row">
-                            <div class="name">Username</div>
+                            <div class="name">Title</div>
                             <div class="value">
                                 <div class="input-group">
+                                    {% render_field announcement_form.title|attr:'required:true'  class="input--style-5"  %}
                                 </div>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="name">Password</div>
+                            <div class="name">Body</div>
                             <div class="value">
                                 <div class="input-group">
-                                    {% render_field announcement_form.title|attr:'required:true'  class="input--style-5"  %}
+                                    {% render_field announcement_form.body|attr:'required:true'  class="input--style-5"  %}
                                 </div>
                             </div>
                         </div>
@@ -32,15 +39,9 @@
 
 
                         <div>
-                            <button class="btn btn--radius-2 btn-info" type="submit">Login</button>
+                            <button class="btn btn--radius-2 btn-info" type="submit">Save</button>
                         </div>
                     </form>
-                    <br>
-                    <p style="text-align: left;">Does not have an account ? <a style="text-decoration: none;" href="/donor/donorsignup">Click here to register</a></p>
-
-                </div>
-            </div>
-        </div>
     </div>
 
 
