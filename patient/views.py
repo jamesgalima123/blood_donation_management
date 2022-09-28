@@ -21,6 +21,7 @@ def patient_signup_view(request):
     if request.method=='POST':
         userForm=forms.PatientUserForm(request.POST)
         patientForm=forms.PatientForm(request.POST,request.FILES)
+        print("valud " + str(userForm.is_valid()) + " " + str(patientForm.is_valid()) )
         if userForm.is_valid() and patientForm.is_valid():
             user=userForm.save()
             user.set_password(user.password)
@@ -31,7 +32,7 @@ def patient_signup_view(request):
             patient.save()
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
             my_patient_group[0].user_set.add(user)
-        return HttpResponseRedirect('patientlogin')
+        #return HttpResponseRedirect('patientlogin')
     return render(request,'patient/patientsignup.html',context=mydict)
 
 def patient_dashboard_view(request):
