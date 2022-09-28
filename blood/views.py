@@ -51,7 +51,7 @@ def home_view(request):
 
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
-    announcements = models.Announcement.objects.all().order_by('-date')[:5]
+    announcements = models.Announcement.objects.all().order_by('-id')[:5]
     return render(request,'blood/index.html',{"announcement":announcements})
 
 def admin_announcement(request):
