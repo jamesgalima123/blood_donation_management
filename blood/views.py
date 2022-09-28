@@ -51,8 +51,12 @@ def home_view(request):
 
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
-    return render(request,'blood/index.html')
+    announcements = models.Announcement.objects.all().order_by('-date')[:5]
+    return render(request,'blood/index.html',{"announcement":announcements})
 
+def admin_announcement(request):
+    announcement_form = forms.AnnouncementForm()
+    return render(request,'blood/admin_announcement.html',{"announcement_form":announcement_form})
 def is_donor(user):
     return user.groups.filter(name='DONOR').exists()
 

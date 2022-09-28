@@ -9,22 +9,58 @@
           background-size: cover;
           background-repeat: no-repeat;
         }
+        .announcement-container{
+            background:rgba(247,231,231,0.9);
+            width:100%;
+            padding-top:10px;
+            border-radius:20px;
+            align-items:center;
+        }
+        .announcement-title{
+        }
+        .announcement-date{
+            width:100%;
+            text-align:right;
+            padding-right:100px;
+            padding-bottom:50px;
+        }
+        .announcement{
+            position:relative;
+            width:80%;
+            text-align: justify;
+            padding-top:20px;
+            width: -moz-fit-content;
+            width: fit-content;
+          padding: 50px;
+          margin-bottom: 1em;
+        }
       </style>
-      
+
 </head>
 
 
 <body>
   {% include "blood/navbar.html" %}
 <br>
+
 <section id="section-jumbotron" style="margin-bottom: 0px;" class="jumbotron jumbotron-fluid d-flex justify-content-center align-items-center xyz">
+   >
     <div class="container text-center">
+                    {% for t in announcement %}
+<div class = "announcement-container">
+                <h3 class = "announcement-title">{{ t.title}}</h3>
+    <p class = "announcement">
+        {{ t.body }}
+    </p>
+    <p class = "announcement-date">{{ t.date }}</p>
+  </div>
+        {% endfor %}
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-     
-      
+
+
       <br><br><br><br><br><br><br>
-      
-    </div>  
+
+    </div>
   </section>
 
 
