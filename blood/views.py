@@ -15,7 +15,6 @@ from patient import forms as pforms
 import logging
 def home_view(request):
     x=models.Stock.objects.all()
-    print(x)
     if len(x)==0:
         blood1=models.Stock()
         blood1.bloodgroup="A+"
@@ -53,16 +52,57 @@ def home_view(request):
         return HttpResponseRedirect('afterlogin')
     announcements = models.Announcement.objects.all().order_by('-id')[:5]
     return render(request,'blood/index.html',{"announcement":announcements})
-
-def admin_announcement(request):
+def upload_announcement(request):
     announcement_form = forms.AnnouncementForm()
-    if request.method=='POST':
-        request_form=forms.AnnouncementForm(request.POST)
+    if request.method == 'POST':
+        request_form = forms.AnnouncementForm(request.POST)
         if request_form.is_valid():
-            announcement_request=request_form.save(commit=False)
+            print("redirec")
+            announcement_request = request_form.save(commit=False)
             announcement_request.save()
-            return HttpResponseRedirect('admin-announcement')
-    return render(request,'blood/admin_announcement.html',{"announcement_form":announcement_form})
+            request.session['announcement_upload'] = True
+            return HttpResponseRedirect('/admin-announcement')
+        request.session['announcement_upload'] = False
+        return HttpResponseRedirect('/admin-announcement')
+
+    return render(request, 'blood/admin_announcement.html')
+
+def delete_announcement(request,pk):
+    announcement = models.Announcement.objects.get(id=pk)
+    announcement.delete()
+    request.session['announcement_delete'] = True
+    return HttpResponseRedirect('/admin-announcement')
+def update_announcement_view(request,pk):
+    announcement = models.Announcement.objects.get(id=pk)
+    announcement_form = forms.AnnouncementForm()
+    mydict = {'announcement_form': announcement_form,'announcement':announcement}
+    if request.method == 'POST':
+        announcement_form = forms.AnnouncementForm(request.POST,instance=announcement)
+        if announcement_form.is_valid():
+            announcement_form.save()
+            request.method = 'GET'
+            request.session['announcement_save'] = True
+            return HttpResponseRedirect('../admin-announcement')
+        request.session['announcement_save'] = False
+        return HttpResponseRedirect('admin-announcement')
+    return render(request, 'blood/update_announcement.html', context=mydict)
+def admin_announcement(request):
+    announcement_save = False
+    announcement_upload = False
+    announcement_delete = False
+    if 'announcement_save' in request.session:
+        announcement_save = request.session['announcement_save']
+        del request.session['announcement_save']
+    if 'announcement_upload' in request.session:
+        announcement_upload = request.session['announcement_upload']
+        del request.session['announcement_upload']
+    if 'announcement_delete' in request.session:
+        announcement_delete = request.session['announcement_delete']
+        del request.session['announcement_delete']
+    announcements = models.Announcement.objects.all().order_by('-id')[:5]
+    return render(request, 'blood/admin_announcement_list.html', {"announcements": announcements,'announcement_save':announcement_save,'announcement_upload':announcement_upload,'announcement_delete':announcement_delete})
+
+
 def is_donor(user):
     return user.groups.filter(name='DONOR').exists()
 
