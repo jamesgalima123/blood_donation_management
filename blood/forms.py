@@ -6,6 +6,10 @@ class BloodForm(forms.ModelForm):
     class Meta:
         model=models.Stock
         fields=['bloodgroup','unit']
+class BloodTestForm(forms.ModelForm):
+    class Meta:
+        model=models.BloodTest
+        fields=['hepaB','hepaC','hiv1','hiv2','htlv1','htlv2','syphilis','westNile','trypanosomaC','babesia']
 
 class AnnouncementForm(forms.ModelForm):
     class Meta:

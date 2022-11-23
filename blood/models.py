@@ -6,6 +6,20 @@ class Stock(models.Model):
     unit=models.PositiveIntegerField(default=0)
     def __str__(self):
         return self.bloodgroup
+class BloodTest(models.Model):
+    bloodDonate =models.ForeignKey(dmodels.BloodDonate,on_delete=models.CASCADE)
+    hepaB = models.BooleanField()
+    hepaC = models.BooleanField()
+    hiv1 = models.BooleanField()
+    hiv2 = models.BooleanField()
+    htlv1 = models.BooleanField()
+    htlv2 = models.BooleanField()
+    syphilis = models.BooleanField()
+    westNile = models.BooleanField()
+    trypanosomaC = models.BooleanField()
+    babesia = models.BooleanField()
+
+
 class Announcement(models.Model):
     title = models.CharField(max_length=100)
     body = models.CharField(max_length=1000)

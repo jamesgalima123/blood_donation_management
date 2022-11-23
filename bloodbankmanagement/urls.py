@@ -50,5 +50,6 @@ urlpatterns = [
     path('update-reject-status/<int:pk>', views.update_reject_status_view,name='update-reject-status'),
     path('admin-announcement', views.admin_announcement, name='admin-announcement'),
     path('admin-announcement-upload', views.upload_announcement, name='admin-announcement-upload'),
+    path('blood-test/<int:pk>', views.blood_test, name='blood-test'),
 
 ]

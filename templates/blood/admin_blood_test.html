@@ -1,0 +1,61 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{%load static%}
+<style>
+    #save-div{
+        text-align:right;
+        margin-top:100px;
+    }
+    form{
+        border-radius:.5rem;
+        margin:auto;
+        width:300px;
+        height:400px;
+        padding-top:50px;
+        padding-left:20px;
+        padding-right:20px;
+        background:rgba(252,242,242);
+  box-shadow: 0px 0px 10px 5px #A2A2A2;
+
+    }
+    input {
+        width: 20px;
+        height: 20px;
+      }
+    textarea{
+            border:none;
+        width:193px;
+                border-radius:5px;
+
+        resize:none;
+    }
+    .page-wrapper{
+    }
+</style>
+<br><br>
+<div class="page-wrapper">
+                    <form method="POST">
+                    {{aa}}
+
+                        {% csrf_token %}
+                        <label>hepa B Test (Check if pass): {% render_field blood_test_form.hepaB   %}</label>
+                        <label>hepa C Test (Check if pass): {% render_field blood_test_form.hepaC   %}</label>
+                        <label>hepa B Test (Check if pass): {% render_field blood_test_form.hiv1  %}</label>
+                        <label>hepa B Test (Check if pass): {% render_field blood_test_form.hiv2  %}</label>
+                        <label>hepa B Test (Check if pass): {% render_field blood_test_form.htlv1 %}</label>
+                        <label>hepa B Test (Check if pass): {% render_field blood_test_form.htlv2  %}</label>
+                        <label>hepa B Test (Check if pass): {% render_field blood_test_form.syphilis  %}</label>
+                        <label>hepa B Test (Check if pass): {% render_field blood_test_form.westNile  %}</label>
+                        <label>hepa B Test (Check if pass): {% render_field blood_test_form.trypanosomaC  %}</label>
+                        <label>hepa B Test (Check if pass): {% render_field blood_test_form.babesia  %}</label>
+                        <div>
+                        <button class="btn btn--radius-2 btn-danger" type="submit">Update</button>
+                        </div>
+
+
+                    </form>
+    </div>
+
+
+{% endblock content %}

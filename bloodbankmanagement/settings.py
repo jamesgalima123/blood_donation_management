@@ -84,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bloodbankmanagement',
         'USER': 'root',
-        'PASSWORD': 'cj012610',
+        'PASSWORD': '123123123',
         'HOST': 'localhost',
         'PORT': '3306',   #my port is 3306
     }

@@ -13,6 +13,7 @@ from patient import models as pmodels
 from donor import forms as dforms
 from patient import forms as pforms
 import logging
+import json
 def home_view(request):
     x=models.Stock.objects.all()
     if len(x)==0:
@@ -346,7 +347,44 @@ def approve_donation_view(request,pk):
     donation.status='Approved'
     donation.save()
     return HttpResponseRedirect('/admin-donation')
+def blood_test(request,pk):
+    blood_test_form = forms.BloodTestForm()
+    bloodTest = models.BloodTest.objects.filter(bloodDonate_id=pk)
+    print("blood test " + str(bloodTest))
+    if request.method == 'POST':
+        request_form = forms.BloodTestForm(request.POST)
+        if(len(bloodTest) > 0):
+            bloodTest = models.BloodTest.objects.get(bloodDonate_id=pk)
+            request_form = forms.BloodTestForm(request.POST,instance=bloodTest)
+        if request_form.is_valid():
+            announcement_request = request_form.save(commit=False)
 
+            announcement_request.bloodDonate_id = pk
+            approve = True
+            for var,val in announcement_request.__dict__.items():
+                if(type(val) == bool):
+                    if(not(val)):
+                        approve = False
+                if approve:
+                    donation = dmodels.BloodDonate.objects.get(id=bloodTest.bloodDonate_id)
+                    donation_blood_group = donation.bloodgroup
+                    donation_blood_unit = donation.unit
+                    stock = models.Stock.objects.get(bloodgroup=donation_blood_group)
+                    stock.unit = stock.unit + donation_blood_unit
+                    stock.save()
+                    donation.status = 'Approved'
+                    donation.save()
+                else:
+                    donation = dmodels.BloodDonate.objects.get(id=bloodTest.bloodDonate_id)
+                    donation.status = 'Rejected'
+                    donation.save()
+            announcement_request.save()
+            request.session['blood_test_upload'] = True
+            return HttpResponseRedirect('/admin-donation')
+        request.session['blood_test_upload'] = False
+        return HttpResponseRedirect('/admin-donation')
+
+    return render(request, 'blood/admin_blood_test.html',context={'blood_test_form':blood_test_form})
 
 @login_required(login_url='adminlogin')
 def reject_donation_view(request,pk):
