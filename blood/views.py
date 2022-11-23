@@ -366,7 +366,7 @@ def blood_test(request,pk):
                     if(not(val)):
                         approve = False
                 if approve:
-                    donation = dmodels.BloodDonate.objects.get(id=bloodTest.bloodDonate_id)
+                    donation = dmodels.BloodDonate.objects.get(id=pk)
                     donation_blood_group = donation.bloodgroup
                     donation_blood_unit = donation.unit
                     stock = models.Stock.objects.get(bloodgroup=donation_blood_group)
@@ -375,7 +375,7 @@ def blood_test(request,pk):
                     donation.status = 'Approved'
                     donation.save()
                 else:
-                    donation = dmodels.BloodDonate.objects.get(id=bloodTest.bloodDonate_id)
+                    donation = dmodels.BloodDonate.objects.get(id=pk)
                     donation.status = 'Rejected'
                     donation.save()
             announcement_request.save()
