@@ -52,7 +52,13 @@ def home_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
     announcements = models.Announcement.objects.all().order_by('-id')[:5]
-    return render(request,'blood/index.html',{"announcement":announcements})
+    make_request = False
+
+    if 'make_request' in request.session:
+        print("the make request " + str(request.session['make_request']))
+        make_request = request.session['make_request']
+        del request.session['make_request']
+    return render(request,'blood/index.html',{"announcement":announcements,"make_request":make_request})
 def upload_announcement(request):
     announcement_form = forms.AnnouncementForm()
     if request.method == 'POST':
@@ -295,8 +301,12 @@ def delete_patient_view(request,pk):
 
 @login_required(login_url='adminlogin')
 def admin_request_view(request):
-    requests=models.BloodRequest.objects.all().filter(status='Pending')
-    return render(request,'blood/admin_request.html',{'requests':requests})
+    bloodRequests=models.BloodRequest.objects.all().filter(status='Pending')
+    for bloodRequest in bloodRequests:
+        patient = pmodels.Patient.objects.get(id=bloodRequest.request_by_patient_id)
+        bloodRequest.mobile = patient.mobile
+
+    return render(request,'blood/admin_request.html',context={'requests':bloodRequests})
 
 @login_required(login_url='adminlogin')
 def admin_request_history_view(request):
@@ -305,8 +315,12 @@ def admin_request_history_view(request):
 
 @login_required(login_url='adminlogin')
 def admin_donation_view(request):
+    blood_test_upload = False
     donations=dmodels.BloodDonate.objects.all()
-    return render(request,'blood/admin_donation.html',{'donations':donations})
+    if 'blood_test_upload' in request.session:
+        blood_test_upload = request.session['blood_test_upload']
+        del request.session['blood_test_upload']
+    return render(request,'blood/admin_donation.html',context={'donations':donations,'blood_test_upload':blood_test_upload})
 
 @login_required(login_url='adminlogin')
 def update_approve_status_view(request,pk):

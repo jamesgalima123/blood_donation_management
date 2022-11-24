@@ -3,28 +3,33 @@ from . import forms,models
 from django.db.models import Sum,Q
 from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.conf import settings
 from datetime import date, timedelta
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
-from patient import forms as bforms
-from patient import models as bmodels
+from blood import forms as bforms
+from blood import models as bmodels
 from patient import forms as forms
-from patient import models as models
+from blood import models as models
+from patient import models as pmodels
+import uuid
 
-
-def patient_signup_view(request):
+def patient_details_view(request):
     userForm=forms.PatientUserForm()
     patientForm=forms.PatientForm()
     mydict={'userForm':userForm,'patientForm':patientForm}
     if request.method=='POST':
+        post = request.POST.copy()
+        post['username'] = str(uuid.uuid4())
+        post['password'] = 'ayasdfwaaa'
+        request.POST = post
         userForm=forms.PatientUserForm(request.POST)
         patientForm=forms.PatientForm(request.POST,request.FILES)
-        print("valud " + str(userForm.is_valid()) + " " + str(patientForm.is_valid()) )
         if userForm.is_valid() and patientForm.is_valid():
             user=userForm.save()
-            user.set_password(user.password)
+            user.set_password('asdadasdd')
             user.save()
             patient=patientForm.save(commit=False)
             patient.user=user
@@ -32,7 +37,9 @@ def patient_signup_view(request):
             patient.save()
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
             my_patient_group[0].user_set.add(user)
-        #return HttpResponseRedirect('patientlogin')
+
+            login(request, user)
+            return HttpResponseRedirect('make-request')
     return render(request,'patient/patientsignup.html',context=mydict)
 
 def patient_dashboard_view(request):
@@ -47,6 +54,7 @@ def patient_dashboard_view(request):
 
     return render(request,'patient/patient_dashboard.html',context=dict)
 
+@login_required(login_url='patientdetails')
 def make_request_view(request):
     request_form=bforms.RequestForm()
     if request.method=='POST':
@@ -54,10 +62,13 @@ def make_request_view(request):
         if request_form.is_valid():
             blood_request=request_form.save(commit=False)
             blood_request.bloodgroup=request_form.cleaned_data['bloodgroup']
-            patient= models.Patient.objects.get(user_id=request.user.id)
+            patient= pmodels.Patient.objects.get(user_id=request.user.id)
             blood_request.request_by_patient=patient
             blood_request.save()
-            return HttpResponseRedirect('my-request')
+            request.session['make_request'] = True
+            print(request.session['make_request'])
+            logout(request)
+            return HttpResponseRedirect('../')
     return render(request,'patient/makerequest.html',{'request_form':request_form})
 
 def my_request_view(request):
