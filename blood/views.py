@@ -60,7 +60,6 @@ def home_view(request):
         del request.session['make_request']
     return render(request,'blood/index.html',{"announcement":announcements,"make_request":make_request})
 def upload_announcement(request):
-    announcement_form = forms.AnnouncementForm()
     if request.method == 'POST':
         request_form = forms.AnnouncementForm(request.POST)
         if request_form.is_valid():
@@ -377,7 +376,7 @@ def blood_test(request,pk):
             approve = True
             for var,val in announcement_request.__dict__.items():
                 if(type(val) == bool):
-                    if(not(val)):
+                    if(val):
                         approve = False
                 if approve:
                     donation = dmodels.BloodDonate.objects.get(id=pk)

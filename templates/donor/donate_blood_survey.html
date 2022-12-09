@@ -109,7 +109,6 @@
     height:700px;
     padding-left:20px;
     padding-right:20px;
-    overflow-y:scroll;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -142,83 +141,7 @@
 </head>
 <br><br><br>
 <div class="page-wrapper">
-    <div class="wrapper wrapper--w790">
-
-        <div style="margin-left: 70px;" class="card card-5">
-            <div class="card-heading">
-                <h2 class="title">DONATE BLOOD</h2>
-            </div>
-            <div class="card-body">
-                <form method="POST" autocomplete="off" enctype="multipart/form-data">
-                    {% csrf_token %}
-
-                    <div class="form-row">
-                        <div class="name">Blood Group</div>
-                        <div class="value">
-                            <div class="input-group">
-                                <div class="rs-select2 js-select-simple select--no-search">
-                                    <select name="bloodgroup">
-                                        <option disabled="disabled" selected="selected">Choose Blood Group</option>
-                                        <option>O+</option>
-                                        <option>O-</option>
-                                        <option>A+</option>
-                                        <option>A-</option>
-                                        <option>B+</option>
-                                        <option>B-</option>
-                                        <option>AB+</option>
-                                        <option>AB-</option>
-                                    </select>
-                                    <div class="select-dropdown"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="name">Unit (in ml)</div>
-                        <div class="value">
-                            <div class="input-group">
-                                {% render_field donation_form.unit|attr:'required:true'  class="input--style-5"  %}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="name">Disease (if any)</div>
-                        <div class="value">
-                            <div class="input-group">
-                                {% render_field donation_form.disease|attr:'required:true'  class="input--style-5"  %}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="name">Age</div>
-                        <div class="value">
-                            <div class="input-group">
-                                {% render_field donation_form.age|attr:'required:true'  class="input--style-5"  %}
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-                    <div>
-                        <button class="btn btn--radius-2 btn-info" type="submit">DONATE</button>
-                    </div>
-                </form>
-<div id="myModal" class="modal">
-
-      <!-- Modal content -->
-      <div class="modal-content">
-        <div class="modal-header">
-              <h2>Survey</h2>
-        </div>
-        <div class="modal-body">
-            <br>
-          <form id="survey-form" method="post">
+     <form id="survey-form" method="post">
               {% csrf_token %}
         <div class = 'question-div'>
               <p style="text-align:left;">1.Masigla ba ang pangangatawan mo ngayong araw? Nakatulog ba ng wasto? (Do you feel healthy today?)</p><br>
@@ -492,16 +415,6 @@
               <br><br>
 
           </form>
-
-    </div>
-                <br>
-
-
-            </div>
-        </div>
-
-    </div>
-
 </div>
 <script>
     var modal = document.getElementById("myModal");

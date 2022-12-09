@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 from django.db.models import Sum,Q
 from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.conf import settings
 from datetime import date, timedelta
@@ -57,9 +58,10 @@ def donor_dashboard_view(request):
 
 
 def donate_blood_view(request):
+    if not("question1" in request.session):
+        return HttpResponseRedirect('donate-blood-survey')
     donation_form=forms.DonationForm()
     if request.method=='POST':
-        donation_form=forms.DonationForm(request.POST)
         if donation_form.is_valid():
             blood_donate=donation_form.save(commit=False)
             blood_donate.bloodgroup=donation_form.cleaned_data['bloodgroup']
@@ -68,6 +70,8 @@ def donate_blood_view(request):
             blood_donate.save()
             return HttpResponseRedirect('donation-history')
     return render(request,'donor/donate_blood.html',{'donation_form':donation_form})
+def donate_blood_survey_view(request):
+    return render(request,'donor/donate_blood_survey.html')
 
 def donation_history_view(request):
     donor= models.Donor.objects.get(user_id=request.user.id)

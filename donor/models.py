@@ -1,3 +1,4 @@
+import jsonfield
 from django.db import models
 from django.contrib.auth.models import User
 from patient import models as pmodels
@@ -30,6 +31,7 @@ class BloodDonate(models.Model):
     bloodgroup=models.CharField(max_length=10)
     unit=models.PositiveIntegerField(default=0)
     status=models.CharField(max_length=20,default="Pending")
+    survey_answer=jsonfield.JSONField()
     date=models.DateField(auto_now=True)
     def __str__(self):
         return self.donor

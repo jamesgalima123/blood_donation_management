@@ -32,6 +32,7 @@ class BloodRequest(models.Model):
     reason=models.CharField(max_length=500)
     bloodgroup=models.CharField(max_length=10)
     unit=models.PositiveIntegerField(default=0)
+    unit_approved=models.PositiveIntegerField(default=0)
     status=models.CharField(max_length=20,default="Pending")
     date=models.DateField(auto_now=True)
     def __str__(self):
