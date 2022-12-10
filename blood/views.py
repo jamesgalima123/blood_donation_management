@@ -8,12 +8,14 @@ from django.conf import settings
 from datetime import date, timedelta
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
+from django.conf import settings
 from donor import models as dmodels
 from patient import models as pmodels
 from donor import forms as dforms
 from patient import forms as pforms
 import logging
 import json
+
 def home_view(request):
     x=models.Stock.objects.all()
     if len(x)==0:
@@ -304,8 +306,8 @@ def admin_request_view(request):
     for bloodRequest in bloodRequests:
         patient = pmodels.Patient.objects.get(id=bloodRequest.request_by_patient_id)
         bloodRequest.mobile = patient.mobile
-
-    return render(request,'blood/admin_request.html',context={'requests':bloodRequests})
+    app_url = settings.APP_URL
+    return render(request,'blood/admin_request.html',context={'app_url':app_url,'requests':bloodRequests})
 
 @login_required(login_url='adminlogin')
 def admin_request_history_view(request):
@@ -323,6 +325,7 @@ def admin_donation_view(request):
 
 @login_required(login_url='adminlogin')
 def update_approve_status_view(request,pk,units):
+    print("frag")
     req=models.BloodRequest.objects.get(id=pk)
     message=None
     bloodgroup=req.bloodgroup

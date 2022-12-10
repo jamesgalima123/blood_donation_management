@@ -123,7 +123,7 @@
                 
                 <td class="text-center">
                    
-                    <button class="btn btn-primary badge-pill" style="width: 100px;"><a  style="text-decoration: none;color: white;" onclick="approveDonation({{ t.id }})">Approve</a> </button>
+                    <button class="btn btn-primary badge-pill" style="width: 100px;"><a  style="text-decoration: none;color: white;" onclick="approveDonation({{ t.id }},{{ t.unit }})">Approve</a> </button>
                     <button class="btn btn-danger badge-pill" style="width: 80px;"><a  style="text-decoration: none;color: white;" href="{% url 'update-reject-status' t.id  %}">Reject</a> </button>
                     
                 </td>
@@ -144,7 +144,7 @@
         <div class="modal-body">
             <br>
           <p style="text-align:center;"><input style="number" placeholder="units" id="units-to-donate"></p>
-                      <p style="text-align:right;"><a style="number" id="submit-a-tag"><button  id="submit-approve">Approve</button></a></p>
+                      <p style="text-align:right;"><button id = "submit-approve" onclick="submitApprove()">Approve</button></p>
             <br>
 
         </div>
@@ -156,18 +156,23 @@
 {% else %}
 <h5>No Blood Request By Patient / Donor !</h5>
 {% endif %}
-
 </div>
 <script>
-    var unitsToDonate = document.getElementById("units-to-donate").value;
     var modal = document.getElementById("myModal");
     var submitA = document.getElementById("submit-a-tag");
     var span = document.getElementsByClassName("close")[0];
+    var unitsToDonate = document.getElementById("units-to-donate");
+    var requestPK = null;
     span.onclick = function() {
       modal.style.display = "none";
     }
-    function approveDonation(pk){
-        submitA.href = "../update-approve-status/" + pk + "/" + unitsToDonate;
+    function submitApprove(){
+        let href = "{{ app_url }}" +"/update-approve-status/" + requestPK + "/" + unitsToDonate.value;
+        location.href = href;
+    }
+    function approveDonation(pk,units){
+        requestPK = pk;
+        unitsToDonate.value = units;
         modal.style.display = "block";
 
     }
