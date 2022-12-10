@@ -1,15 +1,9 @@
-from django.shortcuts import render,redirect,reverse
+from django.shortcuts import render
 from . import forms,models
 from PIL import Image, ImageDraw, ImageFont
-from django.db.models import Sum,Q
 from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required,user_passes_test
-from django.conf import settings
-from datetime import date, timedelta
-from django.core.mail import send_mail
-from django.contrib.auth.models import User
+
 from blood import forms as bforms
 from blood import models as bmodels
 def make_request_view(request):
@@ -58,12 +52,20 @@ def donor_dashboard_view(request):
 
 
 def donate_blood_view(request):
-    if not("question1" in request.session):
-        return HttpResponseRedirect('donate-blood-survey')
     donation_form=forms.DonationForm()
-    if request.method=='POST':
+    if not("question1" in request.POST) and not("survey_answers" in request.session):
+        return HttpResponseRedirect('donate-blood-survey')
+    elif "question1" in request.POST:
+        request.session['survey_answers'] = request.POST
+
+
+    if request.method=='POST' and not("question1" in request.POST) and "survey_answers" in request.session:
+        donation_form = forms.DonationForm(request.POST)
+        print(donation_form)
         if donation_form.is_valid():
+
             blood_donate=donation_form.save(commit=False)
+            blood_donate.survey_answer = request.session['survey_answers']
             blood_donate.bloodgroup=donation_form.cleaned_data['bloodgroup']
             donor= models.Donor.objects.get(user_id=request.user.id)
             blood_donate.donor=donor
