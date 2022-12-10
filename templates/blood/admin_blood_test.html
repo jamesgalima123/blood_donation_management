@@ -59,7 +59,9 @@
         width:40%;
         text-align:right;
     }
-
+    .options-div div p{
+        color:blue;
+    }
 </style>
 <br><br>
 <div class="page-wrapper">
@@ -69,21 +71,19 @@
               <p style="text-align:left;">1.Masigla ba ang pangangatawan mo ngayong araw? Nakatulog ba ng wasto? (Do you feel healthy today?)</p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question1" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question1" value="no"></label></a>
+                 <p>Answer:{% if survey_answers %}{{ survey_answers.0.value }}{% endif %}</p>
               </div>
           </div>
           <div class = 'question-div'>
               <p style="text-align:left;">2.	May iniinom ba na gamut sangayon? Kung Oo ang sagot, maaring isulat ang gamut na ininom: (Currently taking medication?, if yes please specify)</p><br>
-          <div class = "input-div">
-                <input type="text"  name="question2">
+          <div class = "options-div">
+                <p>Answer:{% if survey_answers %}{{ survey_answers.1.value }}{% endif %}</p>
           </div>
         <div class = 'question-div'>
               <p style="text-align:left;">3.	Nakatanggap ba ng anumang uri ng bakuna? (Have you received any vaccination?)</p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question3" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question3" value="no"></label></a>
+                 <p>Answer:{% if survey_answers %}{{ survey_answers.2.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -94,8 +94,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question4" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question4" value="no"></label></a>
+                 <p>Answer:{% if survey_answers %}{{ survey_answers.3.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -106,8 +105,7 @@
 <br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question5" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question5" value="no"></label></a>
+                 <p>Answer:{% if survey_answers %}{{ survey_answers.4.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -118,8 +116,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question6" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question6" value="no"></label></a>
+                 <p>Answer:{% if survey_answers %}{{ survey_answers.5.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -130,8 +127,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question7" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question7" value="no"></label></a>
+                 <p>Answer:{% if survey_answers %}{{ survey_answers.6.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -142,8 +138,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question8" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question8" value="no"></label></a>
+                 <p>Answer:{% if survey_answers %}{{ survey_answers.7.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -154,8 +149,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input  required type="radio"  name="question9" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input  required type="radio" name="question9" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.8.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -166,8 +160,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question10" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question10" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.9.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -178,8 +171,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question11" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question11" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.10.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -190,8 +182,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question12" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question12" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.11.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -202,8 +193,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question13" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question13" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.12.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -212,8 +202,7 @@
               <p style="text-align:left;">14.	Naninirahan sa ibang lugar bukod sa inyong kasalukuyang tirahan? O nanirahan salabas ng Pilipinas? (Lived outside your place of residence? Live outside the Philippines?)</p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question14" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question14" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.13.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -224,8 +213,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question15" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question15" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.14.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -237,8 +225,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question16" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question16" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.15.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -249,8 +236,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question17" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question17" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.16.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -261,8 +247,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question18" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question18" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.17.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -273,8 +258,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question19" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question19" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.18.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -285,8 +269,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question20" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question20" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.19.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -297,8 +280,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question21" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question21" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.20.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -309,8 +291,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question22" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question22" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.21.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -321,8 +302,7 @@
 </p><br>
           <div class = "options-div">
               <div >
-                  <a class="option-y">yes &nbsp <label> <input required type="radio"  name="question23" value="yes" checked></label></a>
-                  <a class="option-n" > no &nbsp  <label> <input required type="radio" name="question23" value="no"></label></a>
+                  <p>Answer:{% if survey_answers %}{{ survey_answers.22.value }}{% endif %}</p>
               </div>
           </div>
 
@@ -330,13 +310,10 @@
           </div>
         </div>
               <br><br><br>
-              <p>
-                  By clicking the submit button, I certify that I am the person referred to in all entries, which were read and well understood by me. It is my free and voluntary act to donate my blood, aware of its risks during and after extractions. The same have been explained to me in understandable language and dialect that I speak.
-              </p><br><br>
-              <div class = 'submit-div'><button id="survey-submit">Submit</button></div>
-              <br><br>
+
 
           </div>
+    <br><br>
                     <form method="POST">
 
                         {% csrf_token %}

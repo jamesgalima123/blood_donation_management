@@ -36,3 +36,6 @@ class BloodDonate(models.Model):
     def __str__(self):
         return self.donor
 
+    @property
+    def get_blood_group(self):
+        return self.bloodgroup

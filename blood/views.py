@@ -322,15 +322,16 @@ def admin_donation_view(request):
     return render(request,'blood/admin_donation.html',context={'donations':donations,'blood_test_upload':blood_test_upload})
 
 @login_required(login_url='adminlogin')
-def update_approve_status_view(request,pk):
+def update_approve_status_view(request,pk,units):
     req=models.BloodRequest.objects.get(id=pk)
     message=None
     bloodgroup=req.bloodgroup
-    unit=req.unit
+    unit=units
     stock=models.Stock.objects.get(bloodgroup=bloodgroup)
     if stock.unit > unit:
         stock.unit=stock.unit-unit
         stock.save()
+        req.unit_approved = units
         req.status="Approved"
 
     else:
@@ -354,7 +355,8 @@ def approve_donation_view(request,pk):
     donation_blood_unit=donation.unit
 
     stock=models.Stock.objects.get(bloodgroup=donation_blood_group)
-    stock.unit=stock.unit+donation_blood_unit
+    stock.unit=100
+    print("the units " + str(stock.unit))
     stock.save()
 
     donation.status='Approved'
@@ -363,7 +365,6 @@ def approve_donation_view(request,pk):
 def blood_test(request,pk):
     blood_test_form = forms.BloodTestForm()
     bloodTest = models.BloodTest.objects.filter(bloodDonate_id=pk)
-    print("blood test " + str(bloodTest))
     if request.method == 'POST':
         request_form = forms.BloodTestForm(request.POST)
         if(len(bloodTest) > 0):
@@ -378,19 +379,20 @@ def blood_test(request,pk):
                 if(type(val) == bool):
                     if(val):
                         approve = False
-                if approve:
-                    donation = dmodels.BloodDonate.objects.get(id=pk)
-                    donation_blood_group = donation.bloodgroup
-                    donation_blood_unit = donation.unit
-                    stock = models.Stock.objects.get(bloodgroup=donation_blood_group)
-                    stock.unit = stock.unit + donation_blood_unit
-                    stock.save()
-                    donation.status = 'Approved'
-                    donation.save()
-                else:
-                    donation = dmodels.BloodDonate.objects.get(id=pk)
-                    donation.status = 'Rejected'
-                    donation.save()
+            if approve:
+                donation = dmodels.BloodDonate.objects.get(id=pk)
+                donation_blood_group = donation.bloodgroup
+                donation_blood_unit = donation.unit
+                stock = models.Stock.objects.get(bloodgroup=donation_blood_group)
+                print("stock unit " + str(stock.unit) + " donation unit " + str(donation_blood_unit))
+                stock.unit = stock.unit + donation_blood_unit
+                stock.save()
+                donation.status = 'Approved'
+                donation.save()
+            else:
+                donation = dmodels.BloodDonate.objects.get(id=pk)
+                donation.status = 'Rejected'
+                donation.save()
             announcement_request.save()
             request.session['blood_test_upload'] = True
             return HttpResponseRedirect('/admin-donation')
@@ -399,8 +401,9 @@ def blood_test(request,pk):
     bloodDonation = dmodels.BloodDonate.objects.get(id=pk)
     survey_answers = []
     for k,v in bloodDonation.survey_answer.items():
-        pass
-    return render(request, 'blood/admin_blood_test.html',context={'blood_test_form':blood_test_form})
+        if(k != "csrfmiddlewaretoken"):
+            survey_answers.append({"key": k, "value": v})
+    return render(request, 'blood/admin_blood_test.html',context={'blood_test_form':blood_test_form,'survey_answers':survey_answers})
 
 @login_required(login_url='adminlogin')
 def reject_donation_view(request,pk):

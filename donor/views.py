@@ -61,15 +61,14 @@ def donate_blood_view(request):
 
     if request.method=='POST' and not("question1" in request.POST) and "survey_answers" in request.session:
         donation_form = forms.DonationForm(request.POST)
-        print(donation_form)
         if donation_form.is_valid():
-
             blood_donate=donation_form.save(commit=False)
             blood_donate.survey_answer = request.session['survey_answers']
             blood_donate.bloodgroup=donation_form.cleaned_data['bloodgroup']
             donor= models.Donor.objects.get(user_id=request.user.id)
             blood_donate.donor=donor
             blood_donate.save()
+            del request.session['survey_answers']
             return HttpResponseRedirect('donation-history')
     return render(request,'donor/donate_blood.html',{'donation_form':donation_form})
 def donate_blood_survey_view(request):
