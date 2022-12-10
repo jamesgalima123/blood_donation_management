@@ -396,7 +396,10 @@ def blood_test(request,pk):
             return HttpResponseRedirect('/admin-donation')
         request.session['blood_test_upload'] = False
         return HttpResponseRedirect('/admin-donation')
-
+    bloodDonation = dmodels.BloodDonate.objects.get(id=pk)
+    survey_answers = []
+    for k,v in bloodDonation.survey_answer.items():
+        pass
     return render(request, 'blood/admin_blood_test.html',context={'blood_test_form':blood_test_form})
 
 @login_required(login_url='adminlogin')
