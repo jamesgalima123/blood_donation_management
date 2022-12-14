@@ -58,7 +58,8 @@ def patient_dashboard_view(request):
 def make_request_view(request):
     request_form=bforms.RequestForm()
     if request.method=='POST':
-        request_form=bforms.RequestForm(request.POST)
+        request_form=bforms.RequestForm(request.POST,request.FILES)
+        print(request_form)
         if request_form.is_valid():
             blood_request=request_form.save(commit=False)
             blood_request.bloodgroup=request_form.cleaned_data['bloodgroup']

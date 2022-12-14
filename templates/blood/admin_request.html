@@ -103,7 +103,7 @@
                 <th scope="col">Unit (in ml)</th>
                 <th scope="col">Date</th>
                 <th scope="col">Status</th>
-                <th class="text-center">Action</th>
+                <th class="text-center" style="width:350px;">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -121,12 +121,14 @@
                 <td>{{t.status}}</td>
                 
                 
-                <td class="text-center">
+                <td class="text-center" style="display:inline-block;">
                    
                     <button class="btn btn-primary badge-pill" style="width: 100px;"><a  style="text-decoration: none;color: white;" onclick="approveDonation({{ t.id }},{{ t.unit }})">Approve</a> </button>
                     <button class="btn btn-danger badge-pill" style="width: 80px;"><a  style="text-decoration: none;color: white;" href="{% url 'update-reject-status' t.id  %}">Reject</a> </button>
-                    
+                    <button class="btn btn-info badge-pill" ><a target="_blank"  style="text-decoration: none;color: white;" href="static/{{t.proof}}">View Proof</a> </button>
+
                 </td>
+
             </tr>
             {% endfor %}
 

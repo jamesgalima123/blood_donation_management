@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 
 class Patient(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
-
     age=models.PositiveIntegerField()
     bloodgroup=models.CharField(max_length=10)
     disease=models.CharField(max_length=100)
@@ -11,7 +10,6 @@ class Patient(models.Model):
 
     address = models.CharField(max_length=40)
     mobile = models.CharField(max_length=20,null=False)
-
     @property
     def get_name(self):
         return self.user.first_name+" "+self.user.last_name

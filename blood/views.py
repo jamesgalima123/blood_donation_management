@@ -18,12 +18,10 @@ import json
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-mail_content = '''Hello,
-This is a simple mail. There is only text, no attachments are there The mail is sent using Python SMTP library. Thank You'''
+
 #The mail addresses and password
-sender_address = 'desxpert.app@gmail.com'
-sender_pass = 'uneffbeoboeazsfq'
-receiver_address = 'receiver567@gmail.com'
+sender_address = 'redcross.help.portal@gmail.com'
+sender_pass = 'ljnanvxmokehqfjs'
 def home_view(request):
     x=models.Stock.objects.all()
     if len(x)==0:
@@ -331,13 +329,11 @@ def admin_donation_view(request):
         del request.session['blood_test_upload']
     return render(request,'blood/admin_donation.html',context={'donations':donations,'blood_test_upload':blood_test_upload})
 
-@login_required(login_url='adminlogin')
-def update_approve_status_view(request,pk,units):
-    # Setup the MIME
+def sendEmail(receiver_address,subject,mail_content):
     message = MIMEMultipart()
     message['From'] = sender_address
     message['To'] = receiver_address
-    message['Subject'] = 'A test mail sent by Python. It has an attachment.'  # The subject line
+    message['Subject'] = subject # The subject line
     # The body and the attachments for the mail
     message.attach(MIMEText(mail_content, 'plain'))
     # Create SMTP session for sending the mail
@@ -348,7 +344,11 @@ def update_approve_status_view(request,pk,units):
     session.sendmail(sender_address, receiver_address, text)
     session.quit()
     print('Mail Sent')
+@login_required(login_url='adminlogin')
+def update_approve_status_view(request,pk,units):
+    # Setup the MIME
     req=models.BloodRequest.objects.get(id=pk)
+    receiver_address = req.request_by_patient.user.email
     message=None
     bloodgroup=req.bloodgroup
     unit=units
@@ -358,6 +358,7 @@ def update_approve_status_view(request,pk,units):
         stock.save()
         req.unit_approved = units
         req.status="Approved"
+        sendEmail(receiver_address, "Blood request approved","We are able to donate " + str(units) + " units")
 
     else:
         message="Stock Doest Not Have Enough Blood To Approve This Request, Only "+str(stock.unit)+" Unit Available"
@@ -371,6 +372,8 @@ def update_reject_status_view(request,pk):
     req=models.BloodRequest.objects.get(id=pk)
     req.status="Rejected"
     req.save()
+    receiver_address = req.request_by_patient.user.email
+    sendEmail(receiver_address, "Blood request rejected", "We are not able to approve your blood request")
     return HttpResponseRedirect('/admin-request')
 
 @login_required(login_url='adminlogin')

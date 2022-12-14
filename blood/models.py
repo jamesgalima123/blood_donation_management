@@ -26,6 +26,7 @@ class Announcement(models.Model):
     date=models.DateField(auto_now=True)
 class BloodRequest(models.Model):
     request_by_patient=models.ForeignKey(pmodels.Patient,null=True,on_delete=models.CASCADE)
+    proof= models.ImageField(upload_to='proof/',null=True,blank=True)
     request_by_donor=models.ForeignKey(dmodels.Donor,null=True,on_delete=models.CASCADE)
     patient_name=models.CharField(max_length=30)
     patient_age=models.PositiveIntegerField()

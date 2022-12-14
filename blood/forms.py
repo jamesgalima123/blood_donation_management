@@ -18,4 +18,4 @@ class AnnouncementForm(forms.ModelForm):
 class RequestForm(forms.ModelForm):
     class Meta:
         model=models.BloodRequest
-        fields=['patient_name','patient_age','reason','bloodgroup','unit']
+        fields=['patient_name','patient_age','reason','bloodgroup','unit','proof']
